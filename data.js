@@ -29,10 +29,10 @@ const TESTS = [
   // ── Example entries (delete these when you have real ones) ──
   {
     id: 1,
-    course: "MA206: Probability & Statistics",
-    year: "2024",
+    course: "MA371",
+    year: "2026",
     type: "PDF",
-    url: "#",
+    url: "https://usarmywestpoint-my.sharepoint.com/personal/finlay_russell_westpoint_edu/Documents/Apps/Microsoft%20Forms/Zoo%20library%20upload%20form/Question/WPR.3_Finlay%20Russell.pdf",
     uploader: "Anonymous"
   },
   {
