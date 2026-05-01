@@ -15,7 +15,7 @@
   courseEl.addEventListener('input', () => {
     const val = courseEl.value.trim().toLowerCase();
     suggestBox.innerHTML = '';
-    if (!val || !window.COURSES) { suggestBox.style.display = 'none'; return; }
+    if (!val || typeof COURSES === 'undefined') { suggestBox.style.display = 'none'; return; }
 
     const matches = COURSES.filter(c => c.toLowerCase().includes(val)).slice(0, 8);
     if (matches.length === 0) { suggestBox.style.display = 'none'; return; }
