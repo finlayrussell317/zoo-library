@@ -54,7 +54,7 @@
     emptyMsg.style.display = 'none';
 
     filtered.forEach(t => {
-      const fileUrl  = db.storage.publicUrl('published', t.file_path);
+      const fileUrl  = db.storage.publicUrl(t.bucket || 'published', t.file_path);
       const fileType = getFileType(t.file_path);
       const uploader = t.uploader || 'Anonymous';
 

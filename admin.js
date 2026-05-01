@@ -132,10 +132,8 @@
     if (!id) { alert('Error: missing test ID'); return; }
     if (!confirm('Approve this test?')) return;
     try {
-      const blob = await db.storage.download('pending', filePath);
-      await db.storage.upload('published', filePath, blob);
+      // Just mark as approved in DB - no need to move file since both buckets are public
       await db.update('tests', { approved: true, bucket: 'published' }, `id=eq.${id}`);
-      try { await db.storage.remove('pending', filePath); } catch(e) {}
       await loadAll();
     } catch (e) {
       alert('Approve error: ' + e.message);
