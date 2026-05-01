@@ -65,7 +65,7 @@
     showStatus('Uploading your file...', 'info');
 
     // Upload file to Supabase storage
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError } = await db.storage
       .from(bucket)
       .upload(filePath, selectedFile);
 

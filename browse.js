@@ -63,7 +63,7 @@
 
     filtered.forEach(t => {
       // Get public URL from published bucket
-      const { data: urlData } = supabase.storage
+      const { data: urlData } = db.storage
         .from('published')
         .getPublicUrl(t.file_path);
 

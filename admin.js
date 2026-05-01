@@ -83,7 +83,7 @@
     const isAnon   = !t.uploader;
 
     // Get download URL from pending bucket
-    const { data: urlData } = supabase.storage
+    const { data: urlData } = db.storage
       .from('pending')
       .getPublicUrl(t.file_path);
 
@@ -108,7 +108,7 @@
 
     const uploader = t.uploader || 'Anonymous';
 
-    const { data: urlData } = supabase.storage
+    const { data: urlData } = db.storage
       .from('published')
       .getPublicUrl(t.file_path);
 
@@ -130,19 +130,19 @@
     if (!confirm(`Approve "${course}" (${year}) by ${uploader}?`)) return;
 
     // Move file from pending to published bucket
-    const { error: copyError } = await supabase.storage
+    const { error: copyError } = await db.storage
       .from('pending')
       .move(filePath, filePath);  // Can't cross-bucket move in client; we update DB and re-upload
 
     // Download from pending
-    const { data: fileData, error: dlError } = await supabase.storage
+    const { data: fileData, error: dlError } = await db.storage
       .from('pending')
       .download(filePath);
 
     if (dlError) { alert('Failed to download file: ' + dlError.message); return; }
 
     // Upload to published
-    const { error: upError } = await supabase.storage
+    const { error: upError } = await db.storage
       .from('published')
       .upload(filePath, fileData, { upsert: true });
 
@@ -157,7 +157,7 @@
     if (dbError) { alert('Failed to update record: ' + dbError.message); return; }
 
     // Delete from pending
-    await supabase.storage.from('pending').remove([filePath]);
+    await db.storage.from('pending').remove([filePath]);
 
     await loadAll();
   };
@@ -166,8 +166,8 @@
     if (!confirm('Are you sure you want to delete this test? This cannot be undone.')) return;
 
     const bucket = isPublished ? 'published' : 'pending';
-    await supabase.storage.from(bucket).remove([filePath]);
-    await supabase.from('tests').delete().eq('id', id);
+    await db.storage.from(bucket).remove([filePath]);
+    await db.from('tests').delete().eq('id', id);
     await loadAll();
   };
 
