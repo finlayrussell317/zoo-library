@@ -449,3 +449,88 @@ nav { display: flex; gap: 2rem; }
   .filter-input, .filter-select { width: 100%; }
   nav { gap: 1rem; }
 }
+
+/* ── Course Folders ───────────────────────────────────────── */
+
+.course-folder {
+  border: 1px solid var(--grey-3);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.folder-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.9rem 1.25rem;
+  background: var(--grey-1);
+  cursor: pointer;
+  transition: background var(--transition);
+  user-select: none;
+}
+
+.folder-header:hover { background: var(--grey-2); }
+
+.folder-open .folder-header { background: var(--grey-2); border-bottom: 1px solid var(--grey-3); }
+
+.folder-icon {
+  font-size: 0.6rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  width: 12px;
+}
+
+.folder-name {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--white);
+  flex: 1;
+}
+
+.folder-count {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--grey-4);
+}
+
+.folder-body .test-grid {
+  border: none;
+  border-radius: 0;
+}
+
+.folder-body .test-row {
+  padding-left: 2.5rem;
+}
+
+/* ── Autocomplete ─────────────────────────────────────────── */
+
+.suggestions-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--grey-2);
+  border: 1px solid var(--grey-3);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 50;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.form-group { position: relative; }
+
+.suggestion-item {
+  padding: 0.6rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--grey-5);
+  cursor: pointer;
+  border-bottom: 1px solid var(--grey-3);
+  transition: background var(--transition);
+}
+
+.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item:hover { background: var(--grey-3); color: var(--white); }
