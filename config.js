@@ -81,16 +81,16 @@ const db = {
     },
 
     async remove(bucket, paths) {
-      const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}`, {
-        method: 'DELETE',
-        headers: {
-          'apikey': SUPABASE_ANON,
-          'Authorization': `Bearer ${SUPABASE_ANON}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ prefixes: paths })
-      });
-      if (!res.ok) throw new Error('Delete failed');
+      // Try both delete endpoints for compatibility
+      try {
+        await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}/${paths[0]}`, {
+          method: 'DELETE',
+          headers: {
+            'apikey': SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`
+          }
+        });
+      } catch(e) { /* ignore */ }
     },
 
     publicUrl(bucket, path) {

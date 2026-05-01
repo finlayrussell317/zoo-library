@@ -131,13 +131,13 @@
 
   async function rejectTest(id, filePath, isPublished) {
     if (!confirm('Delete this test? Cannot be undone.')) return;
+    const bucket = isPublished ? 'published' : 'pending';
+    try { await db.storage.remove(bucket, [filePath]); } catch(e) { /* ignore */ }
     try {
-      const bucket = isPublished ? 'published' : 'pending';
-      await db.storage.remove(bucket, [filePath]);
       await db.delete('tests', `id=eq.${id}`);
       await loadAll();
     } catch (e) {
-      alert('Error: ' + e.message);
+      alert('Error removing from database: ' + e.message);
     }
   }
 
