@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Zoo Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">&#9670;</span>
+        <span class="logo-text">Zoo Library</span>
+      </div>
+      <nav>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="upload.html" class="nav-link">Upload</a>
+        <a href="admin.html" class="nav-link nav-admin active">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <section class="hero hero-sm">
+      <p class="hero-label">Academics Officer</p>
+      <h1 class="hero-title">Review uploads</h1>
+      <p class="hero-sub">Approve named uploads directly. For anonymous ones, download first, redact the name, then approve.</p>
+    </section>
+
+    <div id="admin-gate">
+      <div class="upload-card" style="max-width:400px;">
+        <div class="form-group">
+          <label class="form-label">Admin Password</label>
+          <input type="password" id="password-input" class="form-input" placeholder="Enter password..." />
+        </div>
+        <button id="login-btn" class="upload-btn">Enter &rarr;</button>
+        <p id="login-error" class="status-msg status-error" style="display:none;">Incorrect password.</p>
+      </div>
+    </div>
+
+    <div id="admin-panel" style="display:none;">
+
+      <section class="admin-section">
+        <h2 class="admin-section-title">Pending Review <span id="pending-count" class="badge-count"></span></h2>
+        <div id="pending-list" class="test-grid">
+          <p class="empty-msg" id="pending-empty" style="display:none;">No pending uploads.</p>
+        </div>
+      </section>
+
+      <section class="admin-section" style="margin-top:3rem;">
+        <h2 class="admin-section-title">Published <span id="approved-count" class="badge-count"></span></h2>
+        <div id="approved-list" class="test-grid">
+          <p class="empty-msg" id="approved-empty" style="display:none;">No published tests yet.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Zoo Library &mdash; West Point &bull; <a href="index.html">Browse tests</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

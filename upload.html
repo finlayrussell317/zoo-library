@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload a Test — Zoo Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">&#9670;</span>
+        <span class="logo-text">Zoo Library</span>
+      </div>
+      <nav>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="upload.html" class="nav-link active">Upload</a>
+        <a href="admin.html" class="nav-link nav-admin">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content upload-main">
+
+    <section class="hero hero-sm">
+      <p class="hero-label">Contribute</p>
+      <h1 class="hero-title">Upload a test</h1>
+      <p class="hero-sub">Help future cadets by sharing old tests. Your name is optional.</p>
+    </section>
+
+    <section class="upload-section">
+      <div class="upload-card">
+
+        <div class="tip-box">
+          <span class="tip-icon">&#9432;</span>
+          <div>
+            <strong>Best format:</strong> Use Preview on Mac to scan or export your test as a PDF before uploading. This gives the clearest result for others to read.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Course <span class="required">*</span></label>
+          <input type="text" id="course" class="form-input" placeholder="e.g. MA206: Probability & Statistics" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Academic Year <span class="required">*</span></label>
+          <select id="year" class="form-input">
+            <option value="">Select year...</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Your Name <span class="optional">(optional — leave blank to stay anonymous)</span></label>
+          <input type="text" id="uploader" class="form-input" placeholder="e.g. CDT Smith" />
+          <p class="form-hint">Anonymous uploads are reviewed first so your name can be removed from the document before publishing.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Upload Test <span class="required">*</span></label>
+          <div class="drop-zone" id="drop-zone">
+            <div class="drop-zone-inner">
+              <span class="drop-icon">&#8593;</span>
+              <p class="drop-label">Drag & drop or <span class="drop-browse">browse</span></p>
+              <p class="drop-sub">PDF, image, or Word doc &bull; max 10MB</p>
+            </div>
+            <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" hidden />
+          </div>
+          <p id="file-name" class="file-name" style="display:none;"></p>
+        </div>
+
+        <button id="submit-btn" class="upload-btn">Submit Test &rarr;</button>
+
+        <div id="status-msg" class="status-msg" style="display:none;"></div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Zoo Library &mdash; West Point &bull; <a href="index.html">Browse tests</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="upload.js"></script>
+</body>
+</html>

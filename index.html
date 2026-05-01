@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zoo Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">&#9670;</span>
+        <span class="logo-text">Zoo Library</span>
+      </div>
+      <nav>
+        <a href="index.html" class="nav-link active">Browse</a>
+        <a href="upload.html" class="nav-link">Upload</a>
+        <a href="admin.html" class="nav-link nav-admin">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="hero">
+      <p class="hero-label">West Point Test Archive</p>
+      <h1 class="hero-title">Find old tests.<br/>Study smarter.</h1>
+      <p class="hero-sub">Uploaded by cadets, for cadets. Search by course or year.</p>
+    </section>
+
+    <section class="filters">
+      <input type="text" id="search" class="filter-input" placeholder="Search by course name..." />
+      <select id="year-filter" class="filter-select">
+        <option value="">All years</option>
+      </select>
+    </section>
+
+    <section class="results">
+      <div id="test-grid" class="test-grid"></div>
+      <p id="empty-msg" class="empty-msg" style="display:none;">No tests found.</p>
+      <p id="loading-msg" class="empty-msg">Loading tests...</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Zoo Library &mdash; West Point &bull; <a href="upload.html">Submit a test</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="browse.js"></script>
+</body>
+</html>
