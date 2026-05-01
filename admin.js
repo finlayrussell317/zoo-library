@@ -53,16 +53,35 @@
     const uploader = t.uploader || 'Anonymous';
     const isAnon   = !t.uploader;
     const fileUrl  = db.storage.publicUrl('pending', t.file_path);
-    row.innerHTML = `
-      <div class="test-info">
-        <div class="test-course">${esc(t.course)}</div>
-        <div class="test-meta">${esc(t.year)} &bull; ${esc(uploader)} ${isAnon ? '<span class="anon-badge">ANON</span>' : ''}</div>
-      </div>
-      <div class="admin-actions">
-        <a class="btn-admin btn-download" href="${esc(fileUrl)}" target="_blank">Download</a>
-        <button class="btn-admin btn-approve" onclick="approveTest('${t.id}','${esc(t.file_path)}')">Approve</button>
-        <button class="btn-admin btn-reject" onclick="rejectTest('${t.id}','${esc(t.file_path)}',false)">Delete</button>
-      </div>`;
+
+    const downloadBtn = document.createElement('a');
+    downloadBtn.className = 'btn-admin btn-download';
+    downloadBtn.href = fileUrl;
+    downloadBtn.target = '_blank';
+    downloadBtn.textContent = 'Download';
+
+    const approveBtn = document.createElement('button');
+    approveBtn.className = 'btn-admin btn-approve';
+    approveBtn.textContent = 'Approve';
+    approveBtn.addEventListener('click', () => approveTest(t.id, t.file_path));
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn-admin btn-reject';
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.addEventListener('click', () => rejectTest(t.id, t.file_path, false));
+
+    const actions = document.createElement('div');
+    actions.className = 'admin-actions';
+    actions.append(downloadBtn, approveBtn, deleteBtn);
+
+    const info = document.createElement('div');
+    info.className = 'test-info';
+    info.innerHTML = `
+      <div class="test-course">${esc(t.course)}</div>
+      <div class="test-meta">${esc(t.year)} &bull; ${esc(uploader)} ${isAnon ? '<span class="anon-badge">ANON</span>' : ''}</div>
+    `;
+
+    row.append(info, actions);
     return row;
   }
 
@@ -70,19 +89,34 @@
     const row = document.createElement('div');
     row.className = 'test-row';
     const fileUrl = db.storage.publicUrl('published', t.file_path);
-    row.innerHTML = `
-      <div class="test-info">
-        <div class="test-course">${esc(t.course)}</div>
-        <div class="test-meta">${esc(t.year)} &bull; ${esc(t.uploader || 'Anonymous')}</div>
-      </div>
-      <div class="admin-actions">
-        <a class="btn-admin btn-download" href="${esc(fileUrl)}" target="_blank">View</a>
-        <button class="btn-admin btn-reject" onclick="rejectTest('${t.id}','${esc(t.file_path)}',true)">Remove</button>
-      </div>`;
+
+    const viewBtn = document.createElement('a');
+    viewBtn.className = 'btn-admin btn-download';
+    viewBtn.href = fileUrl;
+    viewBtn.target = '_blank';
+    viewBtn.textContent = 'View';
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'btn-admin btn-reject';
+    removeBtn.textContent = 'Remove';
+    removeBtn.addEventListener('click', () => rejectTest(t.id, t.file_path, true));
+
+    const actions = document.createElement('div');
+    actions.className = 'admin-actions';
+    actions.append(viewBtn, removeBtn);
+
+    const info = document.createElement('div');
+    info.className = 'test-info';
+    info.innerHTML = `
+      <div class="test-course">${esc(t.course)}</div>
+      <div class="test-meta">${esc(t.year)} &bull; ${esc(t.uploader || 'Anonymous')}</div>
+    `;
+
+    row.append(info, actions);
     return row;
   }
 
-  window.approveTest = async function(id, filePath) {
+  async function approveTest(id, filePath) {
     if (!confirm('Approve this test?')) return;
     try {
       const blob = await db.storage.download('pending', filePath);
@@ -93,9 +127,9 @@
     } catch (e) {
       alert('Error: ' + e.message);
     }
-  };
+  }
 
-  window.rejectTest = async function(id, filePath, isPublished) {
+  async function rejectTest(id, filePath, isPublished) {
     if (!confirm('Delete this test? Cannot be undone.')) return;
     try {
       const bucket = isPublished ? 'published' : 'pending';
@@ -105,7 +139,7 @@
     } catch (e) {
       alert('Error: ' + e.message);
     }
-  };
+  }
 
   function esc(str) {
     return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
