@@ -1,7 +1,6 @@
 // ── Zoo Library — Browse ─────────────────────────────────────
 
 (async function () {
-
   const grid       = document.getElementById('test-grid');
   const emptyMsg   = document.getElementById('empty-msg');
   const loadingMsg = document.getElementById('loading-msg');
@@ -10,24 +9,17 @@
 
   let allTests = [];
 
-  // Load approved tests from Supabase
-  const { data, error } = await supabase
-    .from('tests')
-    .select('*')
-    .eq('approved', true)
-    .order('created_at', { ascending: false });
-
-  loadingMsg.style.display = 'none';
-
-  if (error) {
+  try {
+    allTests = await db.select('tests', 'approved=eq.true&order=created_at.desc');
+  } catch (e) {
+    loadingMsg.style.display = 'none';
     emptyMsg.textContent = 'Failed to load tests. Please try again later.';
     emptyMsg.style.display = 'block';
     return;
   }
 
-  allTests = data || [];
+  loadingMsg.style.display = 'none';
 
-  // Populate year dropdown
   const years = [...new Set(allTests.map(t => t.year))].sort((a, b) => b - a);
   years.forEach(y => {
     const opt = document.createElement('option');
@@ -37,7 +29,7 @@
   });
 
   function getFileType(path) {
-    const ext = path.split('.').pop().toLowerCase();
+    const ext = (path || '').split('.').pop().toLowerCase();
     if (['jpg','jpeg','png','gif','webp'].includes(ext)) return 'IMG';
     if (['doc','docx'].includes(ext)) return 'DOC';
     return 'PDF';
@@ -62,12 +54,7 @@
     emptyMsg.style.display = 'none';
 
     filtered.forEach(t => {
-      // Get public URL from published bucket
-      const { data: urlData } = db.storage
-        .from('published')
-        .getPublicUrl(t.file_path);
-
-      const fileUrl  = urlData?.publicUrl || '#';
+      const fileUrl  = db.storage.publicUrl('published', t.file_path);
       const fileType = getFileType(t.file_path);
       const uploader = t.uploader || 'Anonymous';
 
@@ -86,15 +73,10 @@
   }
 
   function esc(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   searchEl.addEventListener('input', render);
   yearEl.addEventListener('change', render);
   render();
-
 })();
