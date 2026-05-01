@@ -80,17 +80,15 @@ const db = {
       return res.blob();
     },
 
-    async remove(bucket, paths) {
-      // Try both delete endpoints for compatibility
-      try {
-        await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}/${paths[0]}`, {
-          method: 'DELETE',
-          headers: {
-            'apikey': SUPABASE_ANON,
-            'Authorization': `Bearer ${SUPABASE_ANON}`
-          }
-        });
-      } catch(e) { /* ignore */ }
+    async remove(bucket, filePath) {
+      const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}/${filePath}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`
+        }
+      });
+      // don't throw - file may already be gone
     },
 
     publicUrl(bucket, path) {
